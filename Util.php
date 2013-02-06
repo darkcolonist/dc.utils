@@ -465,8 +465,13 @@ class Util {
    * @param       array  $array      The result (numericaly keyed, associative inner) array.
    * @param       bool   $recursive  Recursively generate tables for multi-dimensional arrays
    * @param       string $null       String to output for blank cells
+   *
+   * @author      Christian Noel Reyes <me@misty-stix.com>
+   * @version     1.3.2.1
+   *
+   * Added callbacks["column"]("scope : callback function")
    */
-  static function array2table($array, $recursive = false, $null = '&nbsp;') {
+  static function array2table($array, $recursive = false, $null = '&nbsp;', $callbacks = array()) {
     // Sanity check
     if (empty($array) || !is_array($array)) {
       return false;
@@ -490,7 +495,7 @@ class Util {
     // The body
     foreach ($array as $row) {
       $table .= "\t<tr>";
-      foreach ($row as $cell) {
+      foreach ($row as $rkey => $cell) {
         $table .= '<td>';
 
         // Cast objects
@@ -500,11 +505,16 @@ class Util {
 
         if ($recursive === true && is_array($cell) && !empty($cell)) {
           // Recursive mode
-          $table .= "\n" . array2table($cell, true, true) . "\n";
+          $table .= "\n" . self::array2table($cell, true, true) . "\n";
         } else {
-          $table .= (strlen($cell) > 0) ?
-                  htmlspecialchars((string) $cell) :
-                  $null;
+          if(isset($callbacks[$rkey])
+                  && is_callable($callbacks[$rkey])){
+            eval("\$table .= $callbacks[$rkey](\"".htmlspecialchars($cell)."\");");
+          }else{
+            $table .= (strlen($cell) > 0) ?
+                    htmlspecialchars((string) $cell) :
+                    $null;
+          }
         }
 
         $table .= '</td>';
