@@ -46,6 +46,10 @@ made it work using cygwin, maybe its simpler in linux?
    git pull                         # update
    git push origin master:master    # commit-remote
    
-5. (optional)
-  #keyless entry
+5. (optional) setup keyless entry
+5.1 #setup ssh-rsa public key
   https://help.github.com/articles/generating-ssh-keys
+  
+5.2 #change url target in .git/config
+  change: https://github.com/%username%/%repo%.git 
+  to: git@github.com:%username%/%repo%.git
