@@ -1,4 +1,5 @@
 made it work using cygwin, maybe its simpler in linux?
+further reading: git tutorial: http://www.vogella.com/articles/Git/article.html
 
 0. make sure cygwin is in your system
 1. install git in cygwin (git-core)
