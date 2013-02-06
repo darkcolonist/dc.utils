@@ -1,0 +1,42 @@
+made it work using cygwin, maybe its simpler in linux?
+
+0. make sure cygwin is in your system
+1. install git in cygwin (git-core)
+2. install libsasl2 and ca-certificates packages in cygwin (https / ssl support)
+3. configure git in cygwin
+3.1 # Configure the user which will be used by git
+    # Of course you should use your name
+    git config --global user.name "Example Surname"
+    # Same for the email address
+    git config --global user.email "your.email@gmail.com" 
+    
+    # Set default so that all changes are always pushed to the repository
+    git config --global push.default "matching"
+    # Set default so that you avoid unnecessary commits
+    git config --global branch.autosetuprebase always 
+    
+    git config --global color.status auto
+    git config --global color.branch auto 
+    
+    # check the config list
+    git config --list 
+
+3.2 # Create a ~/.gitignore in your user directory
+    cd ~/
+    touch .gitignore
+
+    # Exclude bin and .metadata directories
+    echo "bin" >> .gitignore
+    echo ".metadata" >> .gitignore
+    echo "*~" >> .gitignore
+    echo "target/" >> .gitignore
+
+    # Configure Git to use this file
+    # as global .gitignore
+
+    git config --global core.excludesfile ~/.gitignore 
+    
+3.3 #clone / checkout repo (select a directory first)
+    git clone https://github.com/darkcolonist/utils.git
+    
+3.4 #update
