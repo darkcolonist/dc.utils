@@ -339,7 +339,7 @@ class Util {
         if(count($callbacks) > 0){
           if(!empty($callbacks[$key])){
             if(!is_callable($callbacks[$key])) return "error: function {$callbacks[$key]} is not callable.";
-            eval("\$value = $callbacks[$key](\"".html::specialchars($value)."\");");
+            eval("\$value = $callbacks[$key](\"".htmlspecialchars($value)."\");");
           }
         }
 
