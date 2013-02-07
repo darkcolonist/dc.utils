@@ -6,13 +6,7 @@
  *               singleton contains the frequently used functions on common
  *               day-to-day tasks.
  * @author: christian noel reyes <me@misty-stix.com>
- * @date created: 2012-06-02
- * @changelog-2013-01-07: added remove_array_indices
- * @changelog-2013-01-22: added array2table
- * @changelog-2013-01-23: made log, and logcsv static
- * @changelog-2013-01-28: added doctrine profiler
- * @changelog-2013-02-05: modified add trace timestamp to support a larger figure
- * @changelog-2013-02-05: added date-range validator
+ * @date: 2012-06-02
  */
 class Util {
   protected static $_timer_start_time = null;
@@ -70,7 +64,7 @@ class Util {
     list($usec, $sec) = explode(" ", microtime());
     return ((float) $usec + (float) $sec);
   }
-
+  
   /**
    *
    * profiler type tracing
@@ -80,7 +74,7 @@ class Util {
    * @param mixed $message
    */
   static function add_trace($message){
-    if(self::$trace_enabled){
+    if(self::$_trace_enabled){
       $timestamp = self::microtime();
       $timestamp = substr($timestamp, 7, 7);
       $timestamp = number_format($timestamp, 2);
@@ -123,7 +117,7 @@ class Util {
       return $final_trace;
     }
     else
-      return 'tracing disabled, enable via "LoopHelper::enable_tracing();"';
+      return 'tracing disabled, enable via "self::enable_tracing();"';
   }
 
   static function log($dump, $name, $directory, $separate_per_date = true){
