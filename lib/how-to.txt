@@ -1,0 +1,9 @@
+The snippets work under a helper class.
+
+Some functions will not work if specified with no-class.
+
+Make sure you wrap the functions together under a single class.
+Eg. class Util{ ... }
+
+Usage:
+$time = Util::microtime();
