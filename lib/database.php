@@ -1,8 +1,26 @@
 <?php
+/**
+ * create a backup of all tables specifed
+ * @param string $host
+ * @param string $user
+ * @param string $pass
+ * @param string $name
+ * @param string $tables "table1,table2,table3"
+ * @param string $path "./files/"
+ * @return assoc file list
+ */
 static function backup_tables($host, $user, $pass, $name, $tables = '*', $path = "./")
 {
+  $files = array();
+
   $link = mysql_connect($host,$user,$pass);
+  $hash_core = substr(md5(uniqid()), 0, 8);
+  $hash = "[".$hash_core."]";
+  $files["hash"] = $hash_core;
   mysql_select_db($name,$link);
+
+  $nested_path = $path."{$hash}/";
+  mkdir($nested_path);
 
   //get all of the tables
   if($tables == '*')
@@ -47,11 +65,16 @@ static function backup_tables($host, $user, $pass, $name, $tables = '*', $path =
         $return.= ");\n";
       }
     }
-    $return.="\n\n\n";
+
+    //save file
+    $filename = $nested_path.$name.'.'.$table.'.sql';
+    $handle = fopen($filename,'w+');
+    $files["list"][] = $filename;
+    fwrite($handle,$return);
+    fclose($handle);
+
+    $return = "";
   }
 
-  //save file
-  $handle = fopen($path.'db-backup-'.date("YmdHis").'.sql','w+');
-  fwrite($handle,$return);
-  fclose($handle);
+  return $files;
 }
