@@ -12,4 +12,6 @@ class Util {
   /**
    * sample util class to act as singleton
    */
+
+  // [placeholder]
 }
