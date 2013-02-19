@@ -7,3 +7,6 @@ Eg. class Util{ ... }
 
 Usage:
 $time = Util::microtime();
+
+Note:
+- just ignore the following files: _generator.php, _temp.php
