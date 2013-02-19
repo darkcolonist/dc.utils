@@ -9,7 +9,6 @@ Util::add_trace("something remembered");
 Util::add_trace("something started");
 Util::add_trace("something ended");
 Util::add_trace("something completed");
-echo Util::show_trace();
 
-//echo "it works!";
+echo Util::show_trace();
 ?>
