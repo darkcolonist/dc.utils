@@ -232,6 +232,16 @@ static function tax_compute_philhealth($salary) {
   return $phil_health;
 }
 
+/**
+ * 5000 = given gross
+ * 
+ * gross_pay = 5000
+ * sss_ee = compute_sss(5000)
+ * phil_health = compute_ph(5000)
+ * hdmf = 0
+ * marital = (db)
+ * dependents = (db)
+ */
 static function tax_compute_bir($gross_pay_bir, $sss_ee, $phil_health, $hdmf, $marital_status, $dependents) {
   $taxable = $gross_pay_bir - $sss_ee - $phil_health - $hdmf;
   $excess = 0;
