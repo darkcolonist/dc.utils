@@ -241,3 +241,22 @@ static function implode_sqlin($arr){
 
   return $converted;
 }
+
+/**
+ * create a dropdown-prepared key-value array for commonly used frameworks
+ * @param assoc $arr
+ * @param string $null
+ * @return assoc
+ */
+static function to_dropdown_key_val($arr, $null = "- select -"){
+  $dd = array();
+
+  if($null != null)
+    $dd[null] = $null;
+
+  foreach($arr as $key => $val){
+    $dd[$key] = $val;
+  }
+
+  return $dd;
+}
