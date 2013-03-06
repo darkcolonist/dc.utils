@@ -142,91 +142,97 @@ static function tax_compute_philhealth($salary) {
   switch ($salary) {
     case (is_null($salary)):
       $phil_health = 0;
-      break;
-    case ($salary <= 1 && $salary < 5000):
-      $phil_health = 100;
-      break;
-    case ($salary >= 5000 && $salary < 6000):
-      $phil_health = 125;
-      break;
-    case ($salary >= 6000 && $salary < 7000):
-      $phil_health = 150;
-      break;
-    case ($salary >= 7000 && $salary < 8000):
-      $phil_health = 175;
-      break;
+    break;
+    case ($salary >= 1 && $salary < 8000):
+      $phil_health = 87.5;
+    break;
     case ($salary >= 8000 && $salary < 9000):
-      $phil_health = 200;
-      break;
+      $phil_health = 100;
+    break;
     case ($salary >= 9000 && $salary < 10000):
-      $phil_health = 225;
-      break;
+      $phil_health = 112.5;
+    break;
     case ($salary >= 10000 && $salary < 11000):
-      $phil_health = 250;
-      break;
+      $phil_health = 125;
+    break;
     case ($salary >= 11000 && $salary < 12000):
-      $phil_health = 275;
-      break;
+      $phil_health = 137.5;
+    break;
     case ($salary >= 12000 && $salary < 13000):
-      $phil_health = 300;
-      break;
+      $phil_health = 150;
+    break;
     case ($salary >= 13000 && $salary < 14000):
-      $phil_health = 325;
-      break;
+      $phil_health = 162.5;
+    break;
     case ($salary >= 14000 && $salary < 15000):
-      $phil_health = 350;
-      break;
+      $phil_health = 175;
+    break;
     case ($salary >= 15000 && $salary < 16000):
-      $phil_health = 375;
-      break;
+      $phil_health = 187.5;
+    break;
     case ($salary >= 16000 && $salary < 17000):
-      $phil_health = 400;
-      break;
+      $phil_health = 200;
+    break;
     case ($salary >= 17000 && $salary < 18000):
-      $phil_health = 425;
-      break;
+      $phil_health = 212.5;
+    break;
     case ($salary >= 18000 && $salary < 19000):
-      $phil_health = 450;
-      break;
+      $phil_health = 225;
+    break;
     case ($salary >= 19000 && $salary < 20000):
-      $phil_health = 475;
-      break;
+      $phil_health = 237.5;
+    break;
     case ($salary >= 20000 && $salary < 21000):
-      $phil_health = 500;
-      break;
+      $phil_health = 250;
+    break;
     case ($salary >= 21000 && $salary < 22000):
-      $phil_health = 525;
-      break;
+      $phil_health = 262.5;
+    break;
     case ($salary >= 22000 && $salary < 23000):
-      $phil_health = 550;
-      break;
+      $phil_health = 275;
+    break;
     case ($salary >= 23000 && $salary < 24000):
-      $phil_health = 575;
-      break;
+      $phil_health = 287.5;
+    break;
     case ($salary >= 24000 && $salary < 25000):
-      $phil_health = 600;
-      break;
+      $phil_health = 300;
+    break;
     case ($salary >= 25000 && $salary < 26000):
-      $phil_health = 625;
-      break;
+      $phil_health = 312.5;
+    break;
     case ($salary >= 26000 && $salary < 27000):
-      $phil_health = 650;
-      break;
+      $phil_health = 325;
+    break;
     case ($salary >= 27000 && $salary < 28000):
-      $phil_health = 675;
-      break;
+      $phil_health = 337.5;
+    break;
     case ($salary >= 28000 && $salary < 29000):
-      $phil_health = 700;
-      break;
+      $phil_health = 350;
+    break;
     case ($salary >= 29000 && $salary < 30000):
-      $phil_health = 725;
-      break;
-    case ($salary >= 30000):
-      $phil_health = 750;
-      break;
+      $phil_health = 362.5;
+    break;
+    case ($salary >= 30000 && $salary < 31000):
+      $phil_health = 375;
+    break;
+    case ($salary >= 31000 && $salary < 32000):
+      $phil_health = 387.5;
+    break;
+    case ($salary >= 32000 && $salary < 33000):
+      $phil_health = 400;
+    break;
+    case ($salary >= 33000 && $salary < 34000):
+      $phil_health = 412.5;
+    break;
+    case ($salary >= 34000 && $salary < 35000):
+      $phil_health = 425;
+    break;
+    case ($salary >= 35000):
+      $phil_health = 437.5;
+    break;
     default:
       $phil_health = 0;
-      break;
+    break;
   }
 
   return $phil_health;
