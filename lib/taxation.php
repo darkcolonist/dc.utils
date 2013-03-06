@@ -241,12 +241,16 @@ static function tax_compute_philhealth($salary) {
 /**
  * 5000 = given gross
  * 
- * gross_pay = 5000
+ * gross_pay = 5000 (subtract tax-shield, allowances, late/tardiness, absent from this)
  * sss_ee = compute_sss(5000)
  * phil_health = compute_ph(5000)
  * hdmf = 0
  * marital = (db)
  * dependents = (db)
+ * 
+ * @return
+ * income_tax : total deduction to the gross
+ * taxable : total deductions in the payslip
  */
 static function tax_compute_bir($gross_pay_bir, $sss_ee, $phil_health, $hdmf, $marital_status, $dependents) {
   $taxable = $gross_pay_bir - $sss_ee - $phil_health - $hdmf;
