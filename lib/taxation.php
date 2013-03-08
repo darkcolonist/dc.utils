@@ -120,7 +120,7 @@ static function tax_compute_sss($salary) {
       $ee = 483.30;
       break;
     case ($salary >= 14750):
-      $er = 1060 + $ec;
+      $er = 1060 + 30;
       $ee = 500;
       break;
     default:
@@ -469,7 +469,9 @@ static function tax_compute_bir($gross_pay_bir, $sss_ee, $phil_health, $hdmf, $m
       $income_tax = ($excess * .32) + 5208.33;
       break;
   }
-
+  
+  $income_tax = ($gross_pay_bir >= 3500) ? $income_tax : 0;
+  
   $bir_array = array
       (
       'taxable' => $taxable,
