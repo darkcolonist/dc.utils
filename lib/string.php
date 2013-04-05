@@ -34,3 +34,14 @@ static function sanitize($data, $level = 1){
   
   return $data;
 }
+
+static function get_truncated_string($string, $length){
+  $val = "<span style='
+    width: {$length}px;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;' title='\"{$string}\"'>{$string}</span>";
+
+  return $val;
+}
