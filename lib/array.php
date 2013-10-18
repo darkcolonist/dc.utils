@@ -265,7 +265,7 @@ static function to_dropdown_key_val($arr, $null = "- select -"){
  * Generatting CSV formatted string from an array.
  * By Sergey Gurevich.
  */
-static function array_to_scv($array, $header_row = true, $col_sep = ",", $row_sep = "\n", $qut = '"')
+static function array_to_csv($array, $header_row = true, $col_sep = ",", $row_sep = "\n", $qut = '"')
 {
   if (!is_array($array) or !is_array($array[0])) return false;
 
@@ -296,4 +296,43 @@ static function array_to_scv($array, $header_row = true, $col_sep = ",", $row_se
   }
 
   return $output;
+}
+
+/**
+ * search contents of a multi-dimensional array
+ * 
+ * source: http://stackoverflow.com/questions/6661530/php-multi-dimensional-array-search
+ * @param array $array
+ * @param string $index_name
+ * @param string $needle
+ * @return null or key 
+ */
+static function array_multi_dimensional_search($array, $index_name, $needle) {
+  foreach ($array as $key => $val) {
+    if (is_array($val[$index_name])){
+      return self::array_multi_dimensional_search($val[$index_name], $index_name, $needle);
+    }else{
+      if ($val[$index_name] === $needle) {
+        return $key;
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * array to sql value 'in' imploder, used primarily as a callback for
+ * array_walk php native function
+ * 
+ * example:
+ *  array_walk($batch_hashes, array("Util", "stringify_array_values_to_sql"));
+ * 
+ * converts: array(1,2,3)
+ * into: array("\"1\"","\"2\"","\"3\"")
+ * 
+ * @param string $value
+ * @param string $key 
+ */
+static function stringify_array_values_to_sql(&$value, $key){
+  $value = "\"{$value}\"";
 }
