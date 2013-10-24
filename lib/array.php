@@ -336,3 +336,51 @@ static function array_multi_dimensional_search($array, $index_name, $needle) {
 static function stringify_array_values_to_sql(&$value, $key){
   $value = "\"{$value}\"";
 }
+
+static function assoc_array_to_csv($arr, $render = false){
+  $size_mb = 10;
+  
+  $temp_limit = $size_mb * 1024 * 1024;
+  $handle = fopen("php://temp/maxmemory:{$temp_limit}", "r+");
+  
+  // <editor-fold defaultstate="collapsed" desc="magic | input: arr | output: headers, flattened">
+  $headers = array();
+  $flattened = array();
+  foreach($arr as $key => $tmp){
+    foreach($tmp as $field => $value){
+      $field = strtolower($field);
+      if(!in_array($field, $headers)){
+        $headers[] = $field;
+      }
+    }
+    
+    foreach($headers as $header){
+        if(isset($tmp[$header]))
+          $flattened[$key][] = $tmp[$header];
+        else
+          $flattened[$key][] = "";
+      }
+  }
+  // </editor-fold> 
+  
+  fputcsv($handle, $headers);
+  
+  foreach($flattened as $row){
+    fputcsv($handle, $row);
+  }
+  
+  rewind($handle);
+  
+  $data = stream_get_contents($handle);
+  
+  fclose($handle);
+  
+  if($render){
+    header('Content-Type: text/plain');
+    header('Content-Disposition: attachment; filename='.date('YmdHis').'export.csv');
+
+    echo $data;
+  }
+  else
+      return $data;
+}
