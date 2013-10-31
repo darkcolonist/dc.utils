@@ -337,6 +337,35 @@ static function stringify_array_values_to_sql(&$value, $key){
   $value = "\"{$value}\"";
 }
 
+/**
+ * converts an associative array to a csv, using keys as headers
+ *
+ * sample array: 
+ * $arr = array(
+ *        array(
+ *          "name" => "christian"
+ *          , "color" => "silver"
+ *          , "car" => "honda"
+ *          , "model" => "eg"
+ *        )
+ *        , array(
+ *          "name" => "donnie"
+ *          , "car" => "honda"
+ *        )
+ *        , array(
+ *          "name" => "yabs"
+ *          , "car" => "toyota"
+ *          , "year" => "1992"
+ *        )
+ *        , array(
+ *          "name" => "jen"
+ *          , "tranny" => "auto"
+ *          , "car" => "mitsubishi"
+ *          , "year" => "2000"
+ *          , "model" => "gta"
+ *        )
+ *    );
+ */
 static function assoc_array_to_csv($arr, $render = false){
   $size_mb = 10;
   
