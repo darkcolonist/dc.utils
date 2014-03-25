@@ -103,38 +103,40 @@ static function timer_current(){
  * @param  string $when date to challenge with gmdate
  * @return string
  */
-static function ago($when){
-  if(!strtotime($when))
+static function ago($when, $against = null) {
+  if (!strtotime($when))
     return null;
 
   // convert when to timestamp
   $when = date("U", strtotime($when));
 
-  $diff = gmdate("U") - $when;
+  if ($against == null) {
+    $against = gmdate("U");
+  } else {
+    $against = strtotime($against);
+  }
 
-      // Days
+  $diff = $against - $when;
+
+  // Days
   $day = floor($diff / 86400);
   $diff = $diff - ($day * 86400);
 
-      // Hours
+  // Hours
   $hrs = floor($diff / 3600);
   $diff = $diff - ($hrs * 3600);
 
-      // Mins
+  // Mins
   $min = floor($diff / 60);
   $diff = $diff - ($min * 60);
 
-      // Secs
+  // Secs
   $sec = $diff;
 
-      // Return how long ago this was. eg: 3d 17h 4m 18s ago
-      // Skips left fields if they aren't necessary, eg. 16h 0m 27s ago / 10m 7s ago
-  $str = sprintf("%s%s%s%s",
-    $day != 0 ? $day."d " : "",
-    ($day != 0 || $hrs != 0) ? $hrs."h " : "",
-    ($day != 0 || $hrs != 0 || $min != 0) ? $min."m " : "",
-    $sec."s ago"
-    );
+  // Return how long ago this was. eg: 3d 17h 4m 18s ago
+  // Skips left fields if they aren't necessary, eg. 16h 0m 27s ago / 10m 7s ago
+  $str = sprintf("%s%s%s%s", $day != 0 ? $day . "d " : "", ($day != 0 || $hrs != 0) ? $hrs . "h " : "", ($day != 0 || $hrs != 0 || $min != 0) ? $min . "m " : "", $sec . "s"
+  );
 
   return $str;
 }
