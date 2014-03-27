@@ -108,10 +108,10 @@ static function ago($when, $against = null) {
     return null;
 
   // convert when to timestamp
-  $when = date("U", strtotime($when));
+  $when = strtotime($when);
 
   if ($against == null) {
-    $against = gmdate("U");
+    $against = strtotime("now");
   } else {
     $against = strtotime($against);
   }
@@ -119,16 +119,16 @@ static function ago($when, $against = null) {
   $diff = $against - $when;
 
   // Days
-  $day = floor($diff / 86400);
-  $diff = (int)($diff - ($day * 86400));
+  $day = floor($diff/86400);
+  $diff = $diff - ($day * 86400);
 
   // Hours
-  $hrs = floor($diff / 3600);
-  $diff = (int)($diff - ($hrs * 3600));
+  $hrs = floor($diff/3600);
+  $diff = $diff - ($hrs * 3600);
 
   // Mins
-  $min = floor($diff / 60);
-  $diff = (int)($diff - ($min * 60));
+  $min = floor($diff/60);
+  $diff = $diff - ($min * 60);
 
   // Secs
   $sec = $diff;
@@ -136,10 +136,10 @@ static function ago($when, $against = null) {
   // Return how long ago this was. eg: 3d 17h 4m 18s ago
   // Skips left fields if they aren't necessary, eg. 16h 0m 27s ago / 10m 7s ago
   $str = sprintf("%s%s%s%s"
-    , $day != 0 ? $day . "d " : ""
-    , ($day != 0 || $hrs != 0) ? $hrs . "h " : ""
-    , ($day != 0 || $hrs != 0 || $min != 0) ? $min . "m " : ""
-    , $sec . "s");
+    , $day != 0 ? ((int)$day) . "d " : ""
+    , ($day != 0 || $hrs != 0) ? ((int)$hrs) . "h " : ""
+    , ($day != 0 || $hrs != 0 || $min != 0) ? ((int)$min) . "m " : ""
+    , ((int)$sec) . "s");
 
   return $str;
 }
