@@ -169,49 +169,49 @@ function agoFB($timestamp){
 
   if ($diff < 60){
     return $diff == 1 
-      ? $diff . " second" . ' ago' 
-      : $diff . " seconds" . ' ago';
+      ? ((int)$diff) . " second" . ' ago' 
+      : ((int)$diff) . " seconds" . ' ago';
   }        
 
   if ($diff >= 60 && $diff < $intervals['hour']){
     $diff = floor($diff/$intervals['minute']);
     return $diff == 1 
-      ? $diff . " minute" . ' ago' 
-      : $diff . " minutes" . ' ago';
+      ? ((int)$diff) . " minute" . ' ago' 
+      : ((int)$diff) . " minutes" . ' ago';
   }        
 
   if ($diff >= $intervals['hour'] && $diff < $intervals['day']){
     $diff = floor($diff/$intervals['hour']);
     return $diff == 1 
-      ? $diff . " hour" . ' ago' 
-      : $diff . " hours" . ' ago';
+      ? ((int)$diff) . " hour" . ' ago' 
+      : ((int)$diff) . " hours" . ' ago';
   }    
 
   if ($diff >= $intervals['day'] && $diff < $intervals['week']){
     $diff = floor($diff/$intervals['day']);
     return $diff == 1 
-      ? $diff . " day" . ' ago' 
-      : $diff . " days" . ' ago';
+      ? ((int)$diff) . " day" . ' ago' 
+      : ((int)$diff) . " days" . ' ago';
   }    
 
   if ($diff >= $intervals['week'] && $diff < $intervals['month']){
     $diff = floor($diff/$intervals['week']);
     return $diff == 1 
-      ? $diff . " week" . ' ago' 
-      : $diff . " weeks" . ' ago';
+      ? ((int)$diff) . " week" . ' ago' 
+      : ((int)$diff) . " weeks" . ' ago';
   }    
 
   if ($diff >= $intervals['month'] && $diff < $intervals['year']){
     $diff = floor($diff/$intervals['month']);
     return $diff == 1 
-      ? $diff . " month" . ' ago' 
-      : $diff . " months" . ' ago';
+      ? ((int)$diff) . " month" . ' ago' 
+      : ((int)$diff) . " months" . ' ago';
   }    
 
   if ($diff >= $intervals['year']){
     $diff = floor($diff/$intervals['year']);
     return $diff == 1 
-      ? $diff . " year" . ' ago' 
-      : $diff . " years" . ' ago';
+      ? ((int)$diff) . " year" . ' ago' 
+      : ((int)$diff) . " years" . ' ago';
   }
 }
