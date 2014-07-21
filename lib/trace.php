@@ -23,19 +23,19 @@ static function disable_tracing() {
  *
  * @param mixed $message
  */
-protected static $trace_time = 0;
+protected static $_trace_time = 0;
 static function add_trace($message){
-  if(self::$trace_enabled){
+  if(self::$_trace_enabled){
     $timestamp = self::microtime();
     $timestamp = substr($timestamp, 7, 7);
     $timestamp = number_format($timestamp, 2);
 
-    if(self::$trace_time == 0){
-      self::$trace_time = $timestamp;
+    if(self::$_trace_time == 0){
+      self::$_trace_time = $timestamp;
     }
 
     $execIndex = str_pad(count(self::$stacktrace), 3, "0", STR_PAD_LEFT);
-    $totalTime = str_pad(number_format($timestamp - self::$trace_time, 2), 6, "0", STR_PAD_LEFT);
+    $totalTime = str_pad(number_format($timestamp - self::$_trace_time, 2), 6, "0", STR_PAD_LEFT);
 
     $mem = str_pad(round(memory_get_usage() / 1024 / 1024), 3, "0", STR_PAD_LEFT).'M';
 
