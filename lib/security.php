@@ -28,7 +28,7 @@
     }
 
     /*** check for special chars ***/
-    preg_match_all('/[!@#$%&*?-]/', $password, $specialchars);
+    preg_match_all('/[!@#$%&*?-_]/', $password, $specialchars);
     $strength += count($specialchars[0]) > 0 ? 1 : 0;
     if(count($specialchars[0])){
       self::$passwordStrengthLog[] = "special characters passed";
