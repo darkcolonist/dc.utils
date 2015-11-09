@@ -104,3 +104,82 @@ static function logcsv($dump, $name, $directory, $separate_per_date = true){
 
   return true;
 }
+
+/**
+ * logs message to file
+ *
+ * indicate base directory in the beginning, if the base directory 
+ * does not exist, logging will not take place.
+ * 
+ * @param  [type]  $message log contents
+ * @param  [type]  $name    folder with name will be created under
+ *                          base directory
+ * @param  integer $limit   limit of files to keep in the $name
+ *                          folder
+ * @return [type]           complete filename of the log
+ */
+static function log2dir($message, $name, $limit = 10){
+  // CHANGETHIS add a checker also if you wish
+  //            to log only if logging is enabled
+  //            in config
+  // CHANGETHIS directory to your preference
+  $base_directory = APPPATH."logs_custom";
+
+  if(!is_dir($base_directory) || !is_writable($base_directory)){
+    // base directory doesn't exist; logging disabled
+    return false;
+  }
+
+  $log_directory = $base_directory . "/" . $name;
+
+  if(!is_dir($log_directory)){
+    // create directory
+    mkdir($log_directory, 0777);
+  }
+
+  $filename = gmdate("Y-m-d").".txt";
+
+  $filename = $log_directory . "/" . $filename;
+
+  $mem = round(memory_get_usage() / 1024 / 1024).'M';
+  $timestamp = gmdate("H:i:s").'|'.$mem;
+
+  $log = "[{$timestamp}]\t".$message."\n";
+
+  if(file_exists($filename)){
+    $fh = fopen($filename, 'a') or die("can't open file");
+  }else{
+    $fh = fopen($filename, 'w') or die("can't open file");
+    $log = ltrim($log, "\n");
+  }
+  fwrite($fh, $log);
+  fclose($fh);
+
+  // delete old files and keep only the last $limit files in this 
+  // directory
+  $dir = opendir($log_directory);
+  $list = array();
+  while($file = readdir($dir)){
+    $file_info = pathinfo($file);
+
+    if (isset($file_info['extension']) and $file_info['extension'] == "txt"){
+      // add the filename, to be sure not to
+      // overwrite a array key
+      $mtime = filemtime($log_directory ."/". $file) . ',' . $file;
+      $list[$mtime] = $file;
+    }
+  }
+  closedir($dir);
+  krsort($list);
+
+  $counter = 1;
+  foreach ($list as $fkey => $fvalue) {
+    if($counter > $limit){
+      unlink($log_directory."/".$fvalue);
+    }
+
+    $counter ++;
+  }
+
+  return $filename;
+}
