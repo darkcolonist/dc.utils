@@ -59,3 +59,19 @@ static function truncate_mid($string, $length, $truncator = "&hellip;"){
   
   return $result;
 }
+
+/**
+ * fixes the encoding of the values in an associative array
+ * @param  assoc $arr array to be processed
+ * @return assoc      processed array
+ */
+public static function utf8ize($arr){
+  if (is_array($arr)) {
+      foreach ($arr as $k => $v) {
+          $arr[$k] = self::utf8ize($v);
+      }
+  } else if (is_string ($arr)) {
+      return utf8_encode($arr);
+  }
+  return $arr;
+}
