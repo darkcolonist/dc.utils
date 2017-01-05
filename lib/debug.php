@@ -18,55 +18,53 @@ static function debug($variable) {
  *   )
  * 
  * @param  string $type [string|array]
+ * @param  int $directorySubstr [0 for whole name, n for first n characters of name]
  * @return mixed       [depends on $type]
  */
-static function backtrace($type = "array"){
-  $removeFromFilename = array(
+static function backtrace($type = "array", $directorySubstr = 0){
+  $trimFromFilePath = array(
     '/www/',
     '.php'
   );
-
-  $removeFromTrace = array(
+  $omitFromTrace = array(
     "system/core/Kohana.php",
     "system/core/Event.php",
     "system/core/Bootstrap.php",
     "index.php"
   );
-
   $backtrace = debug_backtrace();
-
   $simplifiedBacktrace = array();
-
   foreach ($backtrace as $btkey => $backitem) {
     if(isset($backitem['file'])) {
-      foreach ($removeFromTrace as $rftkey => $rftval) {
+      foreach ($omitFromTrace as $rftkey => $rftval) {
         if(strpos($backitem['file'], $rftval) !== false)
           continue 2;
       }
-
-      foreach ($removeFromFilename as $rffkey => $rffval) {
+      foreach ($trimFromFilePath as $rffkey => $rffval) {
         $backitem['file'] = str_replace($rffval, '', $backitem['file']);
       }
-
+      if($directorySubstr != 0){
+        $fileSubsecs = explode(DIRECTORY_SEPARATOR, $backitem['file']);
+        foreach ($fileSubsecs as $fsskey => $fssval) {
+          if($fsskey != count($fileSubsecs) - 1){
+            $fileSubsecs[$fsskey] = substr($fileSubsecs[$fsskey], 0, $directorySubstr);
+          }
+        }
+        $backitem['file'] = implode(DIRECTORY_SEPARATOR, $fileSubsecs);
+      }
       $simplifiedBacktrace[] = $backitem['file'].":".$backitem['line'];
     }
   }
-
   $simplifiedBacktrace = array_reverse($simplifiedBacktrace);
-
   if($type == 'array'){
     return $simplifiedBacktrace;
   }else{
     $stringify = '';
-
     $simplifiedBacktrace = array_reverse($simplifiedBacktrace);
-
     foreach ($simplifiedBacktrace as $sbtkey => $sbtval) {
       $stringify .= "$sbtval < ";
     }
-
     $stringify = rtrim($stringify, " < ");
-
     // stringify the array
     return $stringify;
   }
