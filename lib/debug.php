@@ -69,3 +69,57 @@ static function backtrace($type = "array", $directorySubstr = 0){
     return $stringify;
   }
 }
+
+private static $_trace2file = array();
+/**
+ * dependencies:
+ *   log.php::log()
+ *   date.php::microtime()
+ *
+ * saves a function trace
+ *
+ * used when tracking down bottlenecks and application slowdowns
+ * put a util::trace2file in several locations to make debugging
+ * thorough
+ * 
+ * @param  string $message the string to be stored in text-file
+ * @param  string $file    the file to store the trace
+ * @param  string $folder  the folder where the file will be saved
+ * @return bool            
+ */
+static function trace2file($message, $file = 'trace2file', $folder = 'debug'){
+  if(count(self::$_trace2file) == 0){
+    $hash = substr(uniqid(), -4, 4);
+
+    self::$_trace2file['hash'] = $hash;
+    self::$_trace2file['start'] = self::microtime();
+    self::$_trace2file['count'] = 0;
+    self::$_trace2file['totaltime'] = 0;
+  }
+
+  self::$_trace2file['count'] ++;        
+
+  $timestamp = self::microtime();
+  $timestamp = substr($timestamp, 8, 6);
+  $timestamp = number_format($timestamp, 3);
+  $elapsed = 0;
+
+  $elapsed = $timestamp - self::$_trace2file['start'];
+
+  self::$_trace2file['start'] = $timestamp;
+
+  if($elapsed < 0)
+    $elapsed = 0;
+
+  $elapsed = number_format($elapsed, 3);
+
+  self::$_trace2file['totaltime'] += $elapsed;
+
+  $totaldisp = number_format(self::$_trace2file['totaltime'], 1);
+
+  $message = self::$_trace2file['hash'].'|'.self::$_trace2file['count'].'|'.$elapsed.'/'.$totaldisp.' '.$message;
+
+  self::log($message, $file, $folder);
+
+  return true;
+}
