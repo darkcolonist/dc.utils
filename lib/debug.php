@@ -120,7 +120,7 @@ static function trace2file($message = null, $file = 'trace2file', $folder = 'deb
 
   if(trim($message) == ""){
     $backtrace = self::backtrace('array');
-    $message = $backtrace[0];
+    $message = $backtrace[count($backtrace)-2];
   }
 
   
