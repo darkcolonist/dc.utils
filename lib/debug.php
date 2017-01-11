@@ -75,6 +75,7 @@ private static $_trace2file = array();
  * dependencies:
  *   log.php::log()
  *   date.php::microtime()
+ *   debug.php::backtrace()
  *
  * saves a function trace
  *
@@ -87,7 +88,7 @@ private static $_trace2file = array();
  * @param  string $folder  the folder where the file will be saved
  * @return bool            
  */
-static function trace2file($message, $file = 'trace2file', $folder = 'debug'){
+static function trace2file($message = null, $file = 'trace2file', $folder = 'debug'){
   if(count(self::$_trace2file) == 0){
     $hash = substr(uniqid(), -4, 4);
 
@@ -117,6 +118,12 @@ static function trace2file($message, $file = 'trace2file', $folder = 'debug'){
 
   $totaldisp = number_format(self::$_trace2file['totaltime'], 1);
 
+  if(trim($message) == ""){
+    $backtrace = self::backtrace('array');
+    $message = $backtrace[0];
+  }
+
+  
   $message = self::$_trace2file['hash'].'|'.self::$_trace2file['count'].'|'.$elapsed.'/'.$totaldisp.' '.$message;
 
   self::log($message, $file, $folder);
